@@ -12,7 +12,7 @@ public class GraphicSettings {
     private  int screenHeight;
 
 
-    public  GraphicSettings(String path){
+    public  GraphicSettings(){
         Gson gson  = new Gson();
         try {
             Reader reader   =  Files.newBufferedReader((Paths.get("src/main/resources/GraphicSettingsConfig.json")));
