@@ -3,6 +3,9 @@ package Frame.Scene.PlayerModel;
 import Frame.Scene.GameModel;
 
 import java.awt.*;
+import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Player implements GameModel {
     private int x;
@@ -10,6 +13,7 @@ public class Player implements GameModel {
     private int width;
     private int height;
     private Image image;
+    private Map<Character, MovementTypes> movementTypesMap;
 
 
 
@@ -68,10 +72,24 @@ public class Player implements GameModel {
     public void setImage(Image image) {
         this.image  = image;
 
+
     }
 
     @Override
     public Image getImage() {
         return this.image;
+    }
+
+    @Override
+    public void setMovement(char keyName, MovementTypes movementType) {
+        if(this.movementTypesMap ==  null) {
+            this.movementTypesMap = new HashMap<>();
+        }
+        movementTypesMap.put(keyName, movementType);
+    }
+
+    @Override
+    public Map<Character, MovementTypes> getMovement() {
+        return this.movementTypesMap;
     }
 }

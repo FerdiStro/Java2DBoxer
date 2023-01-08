@@ -6,6 +6,9 @@ import Frame.Settings.GraphicSettings;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -20,23 +23,31 @@ public class MainFrame {
     private double fps = 0.0;
 
 
-    private JPanel jPanel  = new JPanel(){
+    private JPanel jPanel  = new JPanel() {
+
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
             if(scene != null){
+                pressedKey = movementInstructions.get(movementInstructions.size()-1);
                 List<GameModel> allObjects = scene.getAllObjects();
                 for(GameModel ojb: allObjects){
                     g.drawImage(ojb.getImage(), ojb.getX(), ojb.getY(), ojb.getWidth() , ojb.getHeight(), null);
                     g.drawString(""+fps, 0, 0);
+
+
+                    ojb.move(pressedKey);
+
+
                 }
             }
         }
     };
 
+    private Character pressedKey;
 
-
-
+    List<Character> movementInstructions  =  new ArrayList<>();
 
 
    public MainFrame() {
@@ -44,6 +55,30 @@ public class MainFrame {
        this.jFrame  = buildJFrame();
        this.jFrame.add(this.jPanel);
 
+       //Key Listeners
+       KeyListener keyListener  =  new KeyListener() {
+           @Override
+           public void keyTyped(KeyEvent e) {
+           }
+           @Override
+           public void keyPressed(KeyEvent e) {
+               if(!movementInstructions.contains(e.getKeyChar())){
+                   movementInstructions.add(e.getKeyChar());
+               }
+           }
+
+           @Override
+           public void keyReleased(KeyEvent e) {
+                   List<Character> cloneList =  new ArrayList<>();
+                   for(char key: movementInstructions){
+                       if(e.getKeyChar() !=  key){
+                           cloneList.add(key);
+                       }
+                   }
+                   movementInstructions = cloneList;
+           }
+       };
+       this.jFrame.addKeyListener(keyListener);
    }
 
    public void TICK(double fps){
@@ -57,6 +92,7 @@ public class MainFrame {
        jFrame.setSize(graphicSettings.getScreenWith(), graphicSettings.getScreenHeight());
        jFrame.setVisible(seeJFrame);
        jFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+       movementInstructions.add(';');
        return jFrame;
    }
 

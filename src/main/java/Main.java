@@ -13,6 +13,9 @@ public class Main {
 
 
         Scene scene   =   new Scene();
+
+
+
         scene.addObject(addObjects.addPlayer());
 
 
