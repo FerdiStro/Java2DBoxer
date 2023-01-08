@@ -16,7 +16,6 @@ public class MainFrame {
     private boolean seeJFrame  =  true;
     private JFrame jFrame;
     private Scene scene;
-    private String configPath = "";
     private GraphicSettings graphicSettings;
 
 
@@ -51,7 +50,7 @@ public class MainFrame {
 
 
    public MainFrame() {
-       this.graphicSettings  = new GraphicSettings(configPath);
+       this.graphicSettings  = new GraphicSettings();
        this.jFrame  = buildJFrame();
        this.jFrame.add(this.jPanel);
 
